@@ -2,7 +2,10 @@ package com.capgemini;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -16,10 +19,10 @@ import org.mockito.MockitoAnnotations;
 
 public class PlacarTest {
 	
-	private Placar placar;
+	 private Placar placar;
 	
 	@Mock
-	private Armazenamento armazenamentoMock;
+	 private Armazenamento armazenamentoMock;
 	
 	@BeforeEach
 	void setUp() {
@@ -43,17 +46,23 @@ public class PlacarTest {
 	    verify(armazenamentoMock).armazenarPonto(usuario, tipo, pontos);
 	}
 	
-	/*@Test
+	@Test
     public void testPontosDoUsuario() throws IOException {
-        String usuario = "Alice";
-        Map<String, Integer> pontos = new HashMap<>();
-        pontos.put("Estrela", 20);
-        pontos.put("Moeda", 10);
-
-        when(armazenamentoMock.recuperarPontosUsuario(usuario)).thenReturn(pontos);
-
-        assertEquals(pontos, placar.pontosDoUsuario(usuario));
+        // Mockando o comportamento do método listarTipos do armazenamento
+        when(armazenamentoMock.listarTipos()).thenReturn(Arrays.asList("pontos", "moedas", "estrelas"));
+	
+        // Mockando o comportamento do método recuperarPonto do armazenamento
+        when(armazenamentoMock.recuperarPonto("joao", "pontos")).thenReturn(10);
+        when(armazenamentoMock.recuperarPonto("joao", "moedas")).thenReturn(20);
+        when(armazenamentoMock.recuperarPonto("joao", "estrelas")).thenReturn(0);
+        
+        // Testando o método pontosDoUsuario
+        Map<String, Integer> pontosEsperados = new HashMap<>();
+        pontosEsperados.put("pontos", 10);
+        pontosEsperados.put("moedas", 20);
+        Map<String, Integer> pontosObtidos = placar.pontosDoUsuario("joao");
+        assertEquals(pontosEsperados, pontosObtidos);
     }
-	*/
+	
 
 }
