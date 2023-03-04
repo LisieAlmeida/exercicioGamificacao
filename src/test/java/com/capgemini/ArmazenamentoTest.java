@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,6 +93,46 @@ public class ArmazenamentoTest {
         Collections.sort(usuariosEsperados);
         assertEquals(usuariosEsperados, usuarios);
     }
+	
+	@Test
+	void testListarTipos() throws IOException {
+	    Armazenamento armazenamento = new Armazenamento("test.txt");
+	    armazenamento.armazenarPonto("guerra", "estrela", 10);
+	    armazenamento.armazenarPonto("guerra", "moeda", 20);
+	    armazenamento.armazenarPonto("fernandes", "estrela", 19);
+	    armazenamento.armazenarPonto("rodrigo", "estrela", 17);
+	    List<String> tiposEsperados = Arrays.asList("estrela", "moeda");
+	    
+	    List<String> tipos = armazenamento.listarTipos();
+	    Collections.sort(tiposEsperados);
+
+	    assertEquals(tiposEsperados, tipos);
+	}
+	
+	
+	
+	/*@Test
+	public void testListarTiposDePontoDeUmUsuario() throws IOException {
+		Armazenamento armazenamento = new Armazenamento("test.txt");
+	    armazenamento.armazenarPonto("guerra", "estrela", 10);
+	    armazenamento.armazenarPonto("guerra", "moeda", 20);
+	    armazenamento.armazenarPonto("fernandes", "moeda", 5);
+	    armazenamento.armazenarPonto("rodrigo", "estrela", 17);
+
+	    // Tipos de pontos esperados para o usuário "guerra"
+	    List<String> tiposEsperados = new ArrayList<>();
+	    tiposEsperados.add("estrela");
+	    tiposEsperados.add("moeda");
+
+	    // Verificação dos tipos de pontos do usuário "guerra"
+	    List<String> tiposObtidos = armazenamento.listarTipos("guerra");
+	    assertEquals(tiposEsperados, tiposObtidos);
+	}*/
+	
+
+
+
+
 
  
    

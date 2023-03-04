@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -59,6 +60,22 @@ public class Armazenamento {
         Collections.sort(usuariosList);
         return usuariosList;
     }
+
+    public List<String> listarTipos() throws IOException {
+        Properties props = new Properties();
+        try (FileInputStream fis = new FileInputStream(file)) {
+            props.load(fis);
+        }
+        Set<String> tipos = new HashSet<>();
+        for (String key : props.stringPropertyNames()) {
+            tipos.add(key.split("\\.")[1]);
+        }
+        List<String> tiposList = new ArrayList<>(tipos);
+        Collections.sort(tiposList);
+        return tiposList;
+    }
+    
+    
 
 	
 

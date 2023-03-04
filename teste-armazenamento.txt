@@ -1,0 +1,5 @@
+#Fri Mar 03 22:38:00 BRT 2023
+toco.curtida=2
+rodrigo.estrela=10
+guerra.moeda=10
+fernandes.estrela=5
