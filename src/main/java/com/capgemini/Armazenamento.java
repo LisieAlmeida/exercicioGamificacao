@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class Armazenamento {
             return Integer.parseInt(value);
         }
     }
+    
+    
 
     public List<String> listarUsuarios() throws IOException {
         Properties props = new Properties();
@@ -73,6 +76,21 @@ public class Armazenamento {
         List<String> tiposList = new ArrayList<>(tipos);
         Collections.sort(tiposList);
         return tiposList;
+    }
+    
+    public Map<String, Integer> recuperarPontosUsuario(String usuario) throws IOException {
+        Map<String, Integer> pontosUsuario = new HashMap<>();
+
+        // recuperar todos os tipos de pontos
+        List<String> tipos =  listarTipos();
+
+        // para cada tipo, recuperar os pontos e adicionar no mapa
+        for (String tipo : tipos) {
+            int pontos = recuperarPonto(usuario, tipo);
+            pontosUsuario.put(tipo, pontos);
+        }
+
+        return pontosUsuario;
     }
     
     

@@ -1,4 +1,4 @@
-#Fri Mar 03 22:50:13 BRT 2023
+#Sat Mar 04 02:02:49 BRT 2023
 guerra.estrela=10
 rodrigo.estrela=17
 guerra.moeda=20
