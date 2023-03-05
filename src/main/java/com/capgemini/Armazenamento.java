@@ -81,10 +81,8 @@ public class Armazenamento {
     public Map<String, Integer> recuperarPontosUsuario(String usuario) throws IOException {
         Map<String, Integer> pontosUsuario = new HashMap<>();
 
-        // recuperar todos os tipos de pontos
         List<String> tipos =  listarTipos();
 
-        // para cada tipo, recuperar os pontos e adicionar no mapa
         for (String tipo : tipos) {
             int pontos = recuperarPonto(usuario, tipo);
             pontosUsuario.put(tipo, pontos);
@@ -92,8 +90,34 @@ public class Armazenamento {
 
         return pontosUsuario;
     }
+
+    public List<String> todosUsuariosComPontos() throws IOException {
+        List<String> usuarios = new ArrayList<>();
+        Map<String, Map<String, Integer>> dados = lerDados();
+        for (Map.Entry<String, Map<String, Integer>> usuario : dados.entrySet()) {
+            if (!usuario.getValue().isEmpty()) {
+                usuarios.add(usuario.getKey());
+            }
+        }
+        return usuarios;
+    }
     
-    
+    private Map<String, Map<String, Integer>> lerDados() throws IOException {
+        Map<String, Map<String, Integer>> dados = new HashMap<>();
+        List<String> usuarios = listarUsuarios();
+        List<String> tiposPontos = listarTipos();
+
+        for (String usuario : usuarios) {
+            Map<String, Integer> pontosPorTipo = new HashMap<>();
+            for (String tipoPonto : tiposPontos) {
+                int quantidade = recuperarPonto(usuario, tipoPonto);
+                pontosPorTipo.put(tipoPonto, quantidade);
+            }
+            dados.put(usuario, pontosPorTipo);
+        }
+
+        return dados;
+    }
 
 	
 

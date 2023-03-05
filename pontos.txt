@@ -1,5 +1,7 @@
-#Sat Mar 04 02:02:49 BRT 2023
+#Sat Mar 04 23:38:09 BRT 2023
 guerra.estrela=10
-rodrigo.estrela=5
-guerra.moeda=5
+toco.curtida=2
+rodrigo.estrela=10
+guerra.moeda=10
 fernandes.moeda=20
+fernandes.estrela=5

@@ -1,8 +1,11 @@
 package com.capgemini;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Placar {
 
@@ -26,6 +29,21 @@ public class Placar {
             }
         }
         return pontos;
+    }
+
+
+    public List<String> ranking(String tipo) throws IOException {
+        Map<String, Integer> pontosPorUsuario = new HashMap<>();
+        for (String usuario : armazenamento.listarUsuarios()) {
+            int quantidade = armazenamento.recuperarPonto(usuario, tipo);
+            if (quantidade > 0) {
+                pontosPorUsuario.put(usuario, quantidade);
+            }
+        }
+        return pontosPorUsuario.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
 }

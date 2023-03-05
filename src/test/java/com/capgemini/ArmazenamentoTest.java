@@ -33,28 +33,22 @@ public class ArmazenamentoTest {
 	    Armazenamento armazenamento = new Armazenamento("pontos.txt");
 	    armazenamento.armazenarPonto(usuario, tipoPonto, quantidade);
 
-	    // Lê o conteúdo do arquivo para verificar se o usuário recebeu a quantidade correta de pontos
 	    BufferedReader reader = new BufferedReader(new FileReader("pontos.txt"));
 	    String linha;
-	    boolean encontrouUsuario = false;
-	    boolean encontrouTipoPonto = false;
+	    
 	    while ((linha = reader.readLine()) != null) {
 	        String[] tokens = linha.split(":");
 	        if (tokens[0].equals(usuario)) {
-	            encontrouUsuario = true;
 	            String[] pontos = tokens[1].split(",");
 	            for (String ponto : pontos) {
 	                String[] pontoTokens = ponto.split("-");
 	                if (pontoTokens[0].equals(tipoPonto)) {
-	                    encontrouTipoPonto = true;
 	                    assertEquals(quantidade, Integer.parseInt(pontoTokens[1]));
 	                }
 	            }
 	        }
 	    }
 	    reader.close();
-	    //assertTrue(encontrouUsuario);
-	    //assertTrue(encontrouTipoPonto);
 	}
 	
 	@Test
@@ -96,7 +90,7 @@ public class ArmazenamentoTest {
 	
 	@Test
 	void testListarTipos() throws IOException {
-	    Armazenamento armazenamento = new Armazenamento("test.txt");
+	    Armazenamento armazenamento = new Armazenamento("pontos.txt");
 	    armazenamento.armazenarPonto("guerra", "estrela", 10);
 	    armazenamento.armazenarPonto("guerra", "moeda", 20);
 	    armazenamento.armazenarPonto("fernandes", "estrela", 19);
@@ -109,26 +103,23 @@ public class ArmazenamentoTest {
 	    assertEquals(tiposEsperados, tipos);
 	}
 	
-	
-	
-	/*@Test
-	public void testListarTiposDePontoDeUmUsuario() throws IOException {
-		Armazenamento armazenamento = new Armazenamento("test.txt");
-	    armazenamento.armazenarPonto("guerra", "estrela", 10);
-	    armazenamento.armazenarPonto("guerra", "moeda", 20);
-	    armazenamento.armazenarPonto("fernandes", "moeda", 5);
-	    armazenamento.armazenarPonto("rodrigo", "estrela", 17);
+	@Test
+	void deveRetornarTodosOsUsuariosQueJaReceberamAlgumTipoDePonto() throws IOException {
+	    Armazenamento armazenamento = new Armazenamento("pontos.txt");
 
-	    // Tipos de pontos esperados para o usuário "guerra"
-	    List<String> tiposEsperados = new ArrayList<>();
-	    tiposEsperados.add("estrela");
-	    tiposEsperados.add("moeda");
+	    armazenamento.armazenarPonto("guerra", "moeda", 10);
+	    armazenamento.armazenarPonto("fernandes", "estrela", 5);
+	    armazenamento.armazenarPonto("rodrigo", "estrela", 10);
+	    armazenamento.armazenarPonto("toco", "curtida", 2);
 
-	    // Verificação dos tipos de pontos do usuário "guerra"
-	    List<String> tiposObtidos = armazenamento.listarTipos("guerra");
-	    assertEquals(tiposEsperados, tiposObtidos);
-	}*/
-	
+	    List<String> usuarios = armazenamento.todosUsuariosComPontos();
+
+	    assertEquals(4, usuarios.size());
+	    assertTrue(usuarios.contains("guerra"));
+	    assertTrue(usuarios.contains("fernandes"));
+	    assertTrue(usuarios.contains("rodrigo"));
+	    assertTrue(usuarios.contains("toco"));
+	}
 
 
 

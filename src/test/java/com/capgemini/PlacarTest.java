@@ -2,16 +2,14 @@ package com.capgemini;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,32 +34,47 @@ public class PlacarTest {
 	    String tipo = "estrela";
 	    int pontos = 10;
 	    
-	    //define o comportamento do mock de Armazenamento
+
 	    doNothing().when(armazenamentoMock).armazenarPonto(usuario, tipo, pontos);
 	    
-	    //chama o método a ser testado
+
 	    placar.registrarPonto(usuario, tipo, pontos);
 	    
-	    //verifica se o método de Armazenamento foi chamado com os parâmetros corretos
+
 	    verify(armazenamentoMock).armazenarPonto(usuario, tipo, pontos);
 	}
 	
 	@Test
     public void testPontosDoUsuario() throws IOException {
-        // Mockando o comportamento do método listarTipos do armazenamento
+
         when(armazenamentoMock.listarTipos()).thenReturn(Arrays.asList("pontos", "moedas", "estrelas"));
 	
-        // Mockando o comportamento do método recuperarPonto do armazenamento
         when(armazenamentoMock.recuperarPonto("joao", "pontos")).thenReturn(10);
         when(armazenamentoMock.recuperarPonto("joao", "moedas")).thenReturn(20);
         when(armazenamentoMock.recuperarPonto("joao", "estrelas")).thenReturn(0);
         
-        // Testando o método pontosDoUsuario
         Map<String, Integer> pontosEsperados = new HashMap<>();
         pontosEsperados.put("pontos", 10);
         pontosEsperados.put("moedas", 20);
         Map<String, Integer> pontosObtidos = placar.pontosDoUsuario("joao");
         assertEquals(pontosEsperados, pontosObtidos);
+    }
+	
+	@Test
+    public void testRanking() throws IOException {
+        String tipo = "pontos";
+        String usuario1 = "usuario1";
+        String usuario2 = "usuario2";
+        String usuario3 = "usuario3";
+
+        when(armazenamentoMock.listarUsuarios()).thenReturn(Arrays.asList(usuario1, usuario2, usuario3));
+        when(armazenamentoMock.recuperarPonto(usuario1, tipo)).thenReturn(10);
+        when(armazenamentoMock.recuperarPonto(usuario2, tipo)).thenReturn(5);
+        when(armazenamentoMock.recuperarPonto(usuario3, tipo)).thenReturn(8);
+
+        List<String> ranking = placar.ranking(tipo);
+
+        assertEquals(Arrays.asList(usuario1, usuario3, usuario2), ranking);
     }
 	
 
